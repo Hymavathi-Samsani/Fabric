@@ -1,0 +1,45 @@
+Create a DataFrame with the schema in DDL formatted string.
+    
+    >>> spark.createDataFrame([('Alice', 1)], "name: string, age: int").show()
+    +-----+---+
+    | name|age|
+    +-----+---+
+    |Alice|  1|
+    +-----+---+
+    
+    Create an empty DataFrame.
+    When initializing an empty DataFrame in PySpark, it's mandatory to specify its schema,
+    as the DataFrame lacks data from which the schema can be inferred.
+    
+    >>> spark.createDataFrame([], "name: string, age: int").show()
+    +----+---+
+    |name|age|
+    +----+---+
+    +----+---+
+    
+    Create a DataFrame from Row objects.
+    
+    >>> from pyspark.sql import Row
+    >>> Person = Row('name', 'age')
+    >>> df = spark.createDataFrame([Person("Alice", 1)])
+    >>> df.show()
+    +-----+---+
+    | name|age|
+    +-----+---+
+    |Alice|  1|
+    +-----+---+
+    
+    Create a DataFrame from a pandas DataFrame.
+    
+    >>> spark.createDataFrame(df.toPandas()).show()  # doctest: +SKIP
+    +-----+---+
+    | name|age|
+    +-----+---+
+    |Alice|  1|
+    +-----+---+
+    >>> spark.createDataFrame(pandas.DataFrame([[1, 2]])).collect()  # doctest: +SKIP
+    +---+---+
+    |  0|  1|
+    +---+---+
+    |  1|  2|
+    +---+---+
