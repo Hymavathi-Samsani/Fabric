@@ -1,2 +1,2 @@
-# Fabric
-Fabric Labrary for realtime scenarios
+# Microsoft Fabric
+Fabric custom library for real-time scenarios
