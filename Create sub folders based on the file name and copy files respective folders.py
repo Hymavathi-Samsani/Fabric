@@ -1,4 +1,4 @@
-#Create sub folders based on the file name and move files respective folders
+#1st method - Create sub folders based on the file name and move files respective folders
 import re
 
 #Check if folder exist or not and create
@@ -20,6 +20,6 @@ for file in ls :
         if not notebookutils.fs.exists(path+'Outbound/'+path_str+i): # Create directory if not available
             notebookutils.fs.mkdirs(path+'Outbound/'+path_str)
 
-        notebookutils.fs.cp(path+'Databricks/'+file.name,path+'Outbound/'+path_str+file.name) # Move files in respective folders
+        notebookutils.fs.cp(path+'Databricks/'+file.name,path+'Outbound/'+path_str+file.name) # Copy files in respective folders
 
 print('Execution completed')
