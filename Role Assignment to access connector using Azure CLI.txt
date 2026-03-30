@@ -1,0 +1,45 @@
+To assign a role to an Azure Access Connector (typically used for Azure Databricks or storage proxy identities) within Azure Cloud Shell, follow these steps:
+
+1. Prerequisites
+Ensure you have a role with Microsoft.Authorization/roleAssignments/write permissions, such as Role Based Access Control Administrator or Owner. 
+
+2. Identify Required IDs
+You will need the Principal ID of the Access Connector and the Scope (the resource it needs to access). 
+
+Get Access Connector ID: Use the following Azure CLI command in Cloud Shell:
+
+bash
+az ad sp list --display-name "<YourConnectorName>" --query "[0].id" --output tsv
+
+Get Scope ID: For a storage account, the scope is its resource ID, which you can find via:
+
+bash
+az storage account show --name <StorageAccountName> --query "id" --output tsv
+
+3. Assign the Role
+Use the az role assignment create command to link the connector to the resource with a specific role (e.g., Storage Blob Data Contributor). 
+
+Bash (Cloud Shell):
+
+bash
+az role assignment create \
+  --assignee "<PrincipalID>" \
+  --role "Storage Blob Data Contributor" \
+  --scope "/subscriptions/<SubscriptionID>/resourceGroups/<RGName>/providers/Microsoft.Storage/storageAccounts/<StorageName>"
+
+PowerShell (Cloud Shell):
+New-AzRoleAssignment -ObjectId "<PrincipalID>" `
+  -RoleDefinitionName "Storage Blob Data Contributor" `
+  -Scope "/subscriptions/<SubscriptionID>/resourceGroups/<RGName>/providers/Microsoft.Storage/storageAccounts/<StorageName>"
+
+4. Verify the Assignment
+To confirm the role was successfully assigned, use the az role assignment list command: 
+
+bash
+az role assignment list --assignee "<PrincipalID>" --output table
+
+Key Elements for Assignment: 
+
+Security Principal: The unique ID (Principal ID) of your Access Connector.
+Role Definition: The collection of permissions (e.g., "Contributor", "Reader").
+Scope: The resource, resource group, or subscription level where the access is granted. 
